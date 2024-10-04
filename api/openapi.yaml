@@ -1,0 +1,385 @@
+openapi: 3.0.0
+info:
+  description: "Aitokenizer is a Nulladmin.com microservice which performs input tokenization\
+    \ for AI workloads. It supports various encodings used by OpenAI, Anthropic and\
+    \ others."
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: Nulladmin.com aitokenizer
+  version: 1.0.0
+servers:
+- url: http://example.com/v1
+tags:
+- description: Operations for AI tokenization
+  name: o200k_base
+- description: Operations for server status
+  name: server
+paths:
+  /server/version:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                tag:
+                  summary: Git tag of the current branch
+                  value: 1.0.0
+                hash:
+                  summary: "If there is no git tag and there are no uncommited changes\
+                    \ in the current branch, then this is just the git hash of the\
+                    \ current branch."
+                  value: 330dd98
+                dirty:
+                  summary: "If there is no git tag and there are uncommited changes\
+                    \ in the current branch, then this is just the git hash of the\
+                    \ current branch with '-dirty' appended."
+                  value: 330dd98-dirty
+              schema:
+                $ref: '#/components/schemas/_server_version_get_200_response'
+          description: OK
+  /server/health:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server_health_get_200_response'
+          description: OK
+        "502":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_server_health_get_502_response'
+          description: Service Unavailable
+  /encode/o200k_base:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/_encode_o200k_base_post_request'
+        required: true
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Internal Server Error
+      summary: Upload text file for BPF encoding
+      tags:
+      - o200k_base
+  /encode/cl100k_base:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/_encode_o200k_base_post_request'
+        required: true
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Internal Server Error
+      summary: Upload text file for cl100k_base encoding
+      tags:
+      - cl100k_base
+  /encode/p50k_base:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/_encode_o200k_base_post_request'
+        required: true
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Internal Server Error
+      summary: Upload text file for p50k_base encoding
+      tags:
+      - p50k_base
+  /encode/p50k_edit:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/_encode_o200k_base_post_request'
+        required: true
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Internal Server Error
+      summary: Upload text file for p50k_edit encoding
+      tags:
+      - p50k_edit
+  /encode/r50k_base:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/_encode_o200k_base_post_request'
+        required: true
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Internal Server Error
+      summary: Upload text file for r50k_base encoding
+      tags:
+      - r50k_base
+  /encode/gpt2:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/_encode_o200k_base_post_request'
+        required: true
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Internal Server Error
+      summary: Upload text file for gpt2 encoding
+      tags:
+      - gpt2
+  /encode/claude:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/_encode_o200k_base_post_request'
+        required: true
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_encode_o200k_base_post_400_response'
+          description: Internal Server Error
+      summary: Upload text file for claude encoding
+      tags:
+      - claude
+components:
+  schemas:
+    _encode_o200k_base_post_400_response:
+      example:
+        message: message
+      properties:
+        message:
+          description: Error message
+          type: string
+      type: object
+    _server_health_get_200_response:
+      example:
+        health: Ready
+      properties:
+        health:
+          description: Service status
+          example: Ready
+          type: string
+      type: object
+    _server_version_get_200_response:
+      example:
+        Revision: 330dd98
+        ServiceName: aitokenizer
+        Version: 1.0.0
+        BuildDate: 2024-03-24T01:00:43Z
+        OSArch: linux/amd64
+        Branch: main
+        GoVersion: go1.21.0
+      properties:
+        ServiceName:
+          description: Name of the service
+          example: aitokenizer
+          type: string
+        Version:
+          description: "Program version. Typically this is the git tag of the current\
+            \ commit, e.g. \"1.0.0'."
+          example: 1.0.0
+          type: string
+        Revision:
+          description: "Build revision, e.g. the short git commit hash"
+          example: 330dd98
+          type: string
+        Branch:
+          description: Git branch
+          example: main
+          type: string
+        BuildDate:
+          description: Build date
+          example: 2024-03-24T01:00:43Z
+          type: string
+        GoVersion:
+          description: Go version
+          example: go1.21.0
+          type: string
+        OSArch:
+          description: Machine architecture
+          example: linux/amd64
+          type: string
+      type: object
+    _server_health_get_502_response:
+      example:
+        health: Unavailable
+      properties:
+        health:
+          description: Service status
+          example: Unavailable
+          type: string
+      type: object
+    _encode_o200k_base_post_request:
+      properties:
+        filename:
+          description: The name of the file being uploaded
+          format: binary
+          type: string
+      required:
+      - filename
+      type: object

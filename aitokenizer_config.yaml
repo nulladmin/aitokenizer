@@ -1,0 +1,32 @@
+#
+# Example Configuration file for aitokenizer showing default values
+#
+
+# Note that this is a non-TLS configuration for the server, just for demo purposes
+
+http_server:
+  # Server bind address and port
+  # address: "" is the default for serving on all interfaces
+  address: ""
+  port: 8080
+
+  # HTTP read header timeout in seconds, the time from the connection is
+  # accepted to when the API request headers are fully read.
+  read_header_timeout: 20
+
+  # HTTP read timeout in seconds, the time from when the connection is
+  # accepted to when the API request body is fully read
+  read_timeout: 60
+
+  # HTTP write timeout in seconds, the time from the end of the request
+  # header read to the end of the API response write
+  write_timeout: 60
+
+  # HTTP idle timeout in seconds
+  idle_timeout: 120
+
+  # Maximum size of request header in bytes, default is 1MB
+  max_header_bytes: 1000000
+
+# Enable verbose debug logging, true or false
+debug: false

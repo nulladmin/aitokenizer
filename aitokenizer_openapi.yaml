@@ -1,0 +1,484 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://example.com/v1'
+info:
+  description: >-
+    Aitokenizer is a Nulladmin.com microservice which performs input tokenization
+    for AI workloads. It supports various encodings used by OpenAI, Anthropic and others.
+  version: 1.0.0
+  title: Nulladmin.com aitokenizer
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: o200k_base
+    description: Operations for AI tokenization
+  - name: server
+    description: Operations for server status
+paths:
+  /server/version:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                tag:
+                  value: 1.0.0
+                  summary: Git tag of the current branch
+                hash:
+                  value: 330dd98
+                  summary: >-
+                    If there is no git tag and there are no uncommited changes in the current branch,
+                    then this is just the git hash of the current branch.
+                dirty:
+                  value: 330dd98-dirty
+                  summary: >-
+                    If there is no git tag and there are uncommited changes in the current branch,
+                    then this is just the git hash of the current branch with '-dirty' appended.
+              schema:
+                type: object
+                properties:
+                  ServiceName:
+                    type: string
+                    description: Name of the service
+                    example: "aitokenizer"
+                  Version:
+                    type: string
+                    description: >-
+                      Program version. Typically this is the git tag of the current commit, e.g. "1.0.0'.
+                    example: "1.0.0"
+                  Revision:
+                    type: string
+                    description: Build revision, e.g. the short git commit hash
+                    example: "330dd98"
+                  Branch:
+                    type: string
+                    description: Git branch
+                    example: "main"
+                  BuildDate:
+                    type: string
+                    description: Build date
+                    example: "2024-03-24T01:00:43Z"
+                  GoVersion:
+                    type: string
+                    description: Go version
+                    example: "go1.21.0"
+                  OSArch:
+                    type: string
+                    description: Machine architecture
+                    example: "linux/amd64"
+  /server/health:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  health:
+                    type: string
+                    description: Service status
+                    example: Ready
+        '502':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  health:
+                    type: string
+                    description: Service status
+                    example: Unavailable
+#  /server/metrics:
+#    get:
+
+  /encode/o200k_base:
+    post:
+      tags:
+        - o200k_base
+      summary: Upload text file for BPF encoding
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  format: binary
+                  description: The name of the file being uploaded
+              required:
+                - filename
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  /encode/cl100k_base:
+    post:
+      tags:
+        - cl100k_base
+      summary: Upload text file for cl100k_base encoding
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  format: binary
+                  description: The name of the file being uploaded
+              required:
+                - filename
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  /encode/p50k_base:
+    post:
+      tags:
+        - p50k_base
+      summary: Upload text file for p50k_base encoding
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  format: binary
+                  description: The name of the file being uploaded
+              required:
+                - filename
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  /encode/p50k_edit:
+    post:
+      tags:
+        - p50k_edit
+      summary: Upload text file for p50k_edit encoding
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  format: binary
+                  description: The name of the file being uploaded
+              required:
+                - filename
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  /encode/r50k_base:
+    post:
+      tags:
+        - r50k_base
+      summary: Upload text file for r50k_base encoding
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  format: binary
+                  description: The name of the file being uploaded
+              required:
+                - filename
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  /encode/gpt2:
+    post:
+      tags:
+        - gpt2
+      summary: Upload text file for gpt2 encoding
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  format: binary
+                  description: The name of the file being uploaded
+              required:
+                - filename
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  /encode/claude:
+    post:
+      tags:
+        - claude
+      summary: Upload text file for claude encoding
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  format: binary
+                  description: The name of the file being uploaded
+              required:
+                - filename
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
