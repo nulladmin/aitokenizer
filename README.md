@@ -48,14 +48,14 @@ Inquire at **contact@nulladmin.com**
 
 ## Building and Running the server
 
-To buid and run the server, follow these simple steps within the git repository.
+To build and run the server, follow these simple steps within the git repository.
 
 While you can skip this step Nulladmin recommends that you always vendor your dependencies:
 ```
 go mod vendor
 ```
 
-To buid and run the server with a default configuration:
+To build and run the server with a default configuration:
 
 ```
 make build
